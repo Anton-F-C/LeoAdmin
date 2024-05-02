@@ -1,7 +1,7 @@
 //This file defines the routes for the User model
 import express from "express";
 const router = express.Router();
-const { User } = require("../models");
+import User from '../models/users.js';
 
 // Gets all Users
 router.get("/", async (req, res, next) => {
@@ -65,4 +65,4 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;

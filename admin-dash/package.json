@@ -9,9 +9,8 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "seed": "node server/db/seed.js",
-    "start": "node index.js",
+    "start": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "client-dev": "parcel public/index.html --open",
     "server-dev": "nodemon server.js"
   },
   "dependencies": {
