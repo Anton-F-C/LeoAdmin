@@ -1,5 +1,5 @@
-import { User } from './users';
-import { Property } from './properties';
+import { User } from './users.js';
+import { Property } from './properties.js';
 
 // imported the user and properties models here and defined the associatians between them.
 

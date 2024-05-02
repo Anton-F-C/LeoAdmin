@@ -12,5 +12,5 @@ const sequelize = new Sequelize({
     logging: false
 });
  
-export {sequelize};
+export { sequelize };
 //update this file 11:40pm
