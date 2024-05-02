@@ -1,6 +1,7 @@
-const {DataTypes, db} = require("../db/db.js")
+import { sequelize } from '../db/db.js';
+import { DataTypes } from 'sequelize';
 
-const User = db.define('User',{
+export const User = sequelize.define('User',{
     name: DataTypes.STRING,
     phone: DataTypes.INTEGER,
     email: DataTypes.STRING,
@@ -8,6 +9,6 @@ const User = db.define('User',{
     
 });
 
-module.exports = { User }
+// module.exports = { User }
 
 //Eventually I will make it some that users can upload a profile picture. 
