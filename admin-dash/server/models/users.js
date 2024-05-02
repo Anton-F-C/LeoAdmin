@@ -1,4 +1,4 @@
-import { sequelize } from '../db/db.js';
+import { sequelize } from '../db/db';
 import { DataTypes } from 'sequelize';
 
 export const User = sequelize.define('User',{
@@ -8,7 +8,3 @@ export const User = sequelize.define('User',{
     role: DataTypes.STRING
     
 });
-
-// module.exports = { User }
-
-//Eventually I will make it some that users can upload a profile picture. 
