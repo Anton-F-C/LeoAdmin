@@ -29,7 +29,7 @@ async function seed() {
             size: 800,
             price: 250,
             location: 'Madison, WI'
-        },
+        }
     ];
 
     const properties = await Promise.all(propertiesData.map(propertyData => Property.create(propertyData)));
