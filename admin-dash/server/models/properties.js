@@ -1,7 +1,7 @@
 import { sequelize } from '../db/db.js';
 import { DataTypes } from 'sequelize';
 
-export const Property = sequelize.define('Property',{
+const Property = sequelize.define('Property',{
     name: DataTypes.STRING,
     bed: DataTypes.STRING,
     bath: DataTypes.STRING,
@@ -11,6 +11,10 @@ export const Property = sequelize.define('Property',{
    
 });
 
-//module.exports = { Property }
+export default Property;
+
+//in order to not use curly braces we can export with default. since we don't use require anymore because of the new ESModule.
+
+
 //eventually I will make it so that images of the property can be uploaded. Also so that ratings can be shown. 
 
