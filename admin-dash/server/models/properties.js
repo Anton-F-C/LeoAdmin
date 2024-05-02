@@ -1,6 +1,7 @@
-const {DataTypes, db} = require("../db/db.js")
+import { sequelize } from '../db/db.js';
+import { DataTypes } from 'sequelize';
 
-const Property = db.define('Property',{
+export const Property = sequelize.define('Property',{
     name: DataTypes.STRING,
     bed: DataTypes.STRING,
     bath: DataTypes.STRING,
@@ -10,6 +11,6 @@ const Property = db.define('Property',{
    
 });
 
-module.exports = { Property }
+//module.exports = { Property }
 //eventually I will make it so that images of the property can be uploaded. Also so that ratings can be shown. 
 
