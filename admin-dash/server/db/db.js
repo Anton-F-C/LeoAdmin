@@ -13,3 +13,4 @@ const sequelize = new Sequelize({
 });
  
 export {sequelize};
+//update this file 11:40pm
