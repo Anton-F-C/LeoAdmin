@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "seed": "node server/db/seed.cjs",
+    "start": "nodemon server",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client-dev": "parcel public/index.html --open",
+    "server-dev": "nodemon server.js"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -17,8 +22,10 @@
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.16",
     "date-fns": "^3.6.0",
+    "express": "^4.19.2",
     "history": "^5.3.0",
     "lodash": "^4.17.21",
+    "nodemon": "^3.1.0",
     "numeral": "^2.0.6",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -27,7 +34,9 @@
     "react-helmet-async": "^2.0.4",
     "react-hook-form": "^7.51.3",
     "react-router-dom": "^6.23.0",
-    "simplebar-react": "^3.2.4"
+    "sequelize": "^6.37.3",
+    "simplebar-react": "^3.2.4",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
