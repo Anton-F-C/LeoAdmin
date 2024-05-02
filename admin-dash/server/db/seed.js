@@ -32,7 +32,7 @@ async function seed() {
         },
     ];
 
-    const properties = await Promise.all(propertiesData.map(propertyData => Property.Create(propertyData)));
+    const properties = await Promise.all(propertiesData.map(propertyData => Property.create(propertyData)));
 
 await Promise.all(properties.map(property => user.addProperties(property)));
 
