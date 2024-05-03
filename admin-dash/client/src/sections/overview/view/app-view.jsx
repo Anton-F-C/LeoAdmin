@@ -224,7 +224,7 @@ export default function AppView() {
             ]}
           />
         </Grid>
-      </Grid>
+          </Grid>
     </Container>
   );
 }

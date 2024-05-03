@@ -24,16 +24,11 @@ export default function Router() {
         { element: <IndexPage />, index: true },
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
-        { path: 'blog', element: <BlogPage /> },
       ],
     },
     {
       path: 'login',
       element: <LoginPage />,
-    },
-    {
-      path: '404',
-      element: <Page404 />,
     },
     {
       path: '*',
