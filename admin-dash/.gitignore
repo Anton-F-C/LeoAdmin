@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # Terraform Providers
-.terraform/providers/registry.terraform.io//aws/*/terraform-provider-aws_v*.exe
+.terraform/
