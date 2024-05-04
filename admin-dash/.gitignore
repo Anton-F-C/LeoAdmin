@@ -22,3 +22,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.terraform/providers/registry.terraform.io/hashicorp/aws/*/terraform-provider-aws_v*.exe
