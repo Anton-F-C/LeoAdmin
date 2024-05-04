@@ -22,4 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-.terraform/providers/registry.terraform.io/hashicorp/aws/*/terraform-provider-aws_v*.exe
+
+# Terraform Providers
+.terraform/providers/registry.terraform.io//aws/*/terraform-provider-aws_v*.exe
