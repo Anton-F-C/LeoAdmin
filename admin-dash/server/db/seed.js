@@ -1,16 +1,16 @@
 import { sequelize} from './db.js';
-import { User } from '../models/users.js';
-import { Property } from '../models/properties.js';
+import  User  from '../models/users.js';
+import  Property  from '../models/properties.js';
 import '../models/index.js';
 
 async function seed() {
     await sequelize.sync({ force: true });
 
     const user = await User.create({
-        name: 'Bertha',
-        phone: 1234567890,
-        email: 'Bertha@rentals.com',
-        role: 'Administrator'
+        name: 'Anton',
+        phone: 3122005432,
+        email: 'ant@rentals.com',
+        role: 'Admin'
     });
     
     const propertiesData = [
