@@ -1,5 +1,4 @@
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -9,34 +8,74 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-
-import { users } from '../../../_mock/user';
-
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
-
-import TableNoData from '../table-no-data';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
+import NewUserDialog from './newUser-form';
 
-// ----------------------------------------------------------------------
 
 export default function UserPage() {
   const [page, setPage] = useState(0);
-
   const [order, setOrder] = useState('asc');
-
   const [selected, setSelected] = useState([]);
-
   const [orderBy, setOrderBy] = useState('name');
-
   const [filterName, setFilterName] = useState('');
-
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [users, setUsers] = useState([]);
+  const [open, setOpen] = useState(false);
 
+
+
+
+  //to get all users and show them in the table
+  async function fetchUsers() {
+    try{
+      // send a get request to the /users endpoint of the API
+      const response = await fetch('http://localhost:3000/users');
+      const userData = await response.json();
+      setUsers(userData);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  }
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+//all users
+
+const handleNewUserClick = () => {
+  setOpen(true);
+};
+
+async function handleNewUserSubmit(event, newUser) {
+  event.preventDefault();
+  
+  try {
+      const response = await fetch('http://localhost:3000/users', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newUser)
+      });
+      
+      const userData = await response.json();
+      
+      // Update the users state with the new user
+      setUsers([...users, userData]);
+  } catch (error) {
+      console.error("Error creating new user:", error);
+  }
+  
+  // Close the dialog form
+  setOpen(false);
+};
+
+//filtering
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
     if (id !== '') {
@@ -99,11 +138,11 @@ export default function UserPage() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Users</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
+        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}onClick={handleNewUserClick}>
           New User
         </Button>
       </Stack>
-
+      < NewUserDialog open={open} onSubmit={handleNewUserSubmit} />
       <Card>
         <UserTableToolbar
           numSelected={selected.length}
@@ -123,11 +162,9 @@ export default function UserPage() {
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: 'name', label: 'Name' },
-                  { id: 'company', label: 'Company' },
                   { id: 'role', label: 'Role' },
-                  { id: 'isVerified', label: 'Verified', align: 'center' },
-                  { id: 'status', label: 'Status' },
-                  { id: '' },
+                  { id: 'email', label: 'Email' },
+                  { id: 'phone', label: 'Phone' },
                 ]}
               />
               <TableBody>
