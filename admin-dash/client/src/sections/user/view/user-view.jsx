@@ -16,6 +16,7 @@ import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import NewUserDialog from './newUser-form';
+import UpdatedUserDialog from './updateUser';
 
 
 export default function UserPage() {
@@ -26,11 +27,11 @@ export default function UserPage() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [users, setUsers] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [dialogOpen, setDialogOpen ] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
-
-
-
+  
   //to get all users and show them in the table
   async function fetchUsers() {
     try{
@@ -41,16 +42,23 @@ export default function UserPage() {
     } catch (error) {
       console.error("Error fetching users:", error);
     }
-  }
+  };
   useEffect(() => {
     fetchUsers();
   }, []);
-//all users
+//end
 
 const handleNewUserClick = () => {
-  setOpen(true);
+  setDialogOpen(true);
+};
+const handleEditUserClick = (row) => {
+  setEditDialogOpen(true);
+  setSelectedUser(row)
 };
 
+
+
+//Adding a new user 
 async function handleNewUserSubmit(event, newUser) {
   event.preventDefault();
   
@@ -71,9 +79,50 @@ async function handleNewUserSubmit(event, newUser) {
       console.error("Error creating new user:", error);
   }
   
-  // Close the dialog form
-  setOpen(false);
-};
+  
+  setDialogOpen(false);// Close the dialog form
+};//end 
+
+//Deleting a user
+async function handleDelete(id) {
+  try {
+    const response = await fetch(`http://localhost:3000/users/${id}`, {
+      method: 'DELETE',
+    });
+    if (response.ok) {
+      setUsers(users.filter((user) => user.id !== id));
+    } else {
+      console.error('Failed to delete user');
+    }
+  } catch (error) {
+    console.error('Error deleting user:', error);
+  }
+};//end
+
+//Editing a user
+async function handleEdit(id, updatedUser) {
+  console.log("insideFunction")
+  try {
+    const response = await fetch(`http://localhost:3000/users/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedUser),
+    });
+    if (response.ok) {
+      const updatedUser = await response.json();
+      setUsers(users.map((user) => (user.id === id ? updatedUser : user)));
+    } else {
+      console.error('Failed to update user');
+    }
+  } catch (error) {
+    console.error('Error updating user:', error);
+  }
+};//end
+
+
+
 
 //filtering
   const handleSort = (event, id) => {
@@ -142,7 +191,9 @@ async function handleNewUserSubmit(event, newUser) {
           New User
         </Button>
       </Stack>
-      < NewUserDialog open={open} onSubmit={handleNewUserSubmit} />
+      < NewUserDialog open={dialogOpen} setOpen={setDialogOpen} onSubmit={handleNewUserSubmit} />
+      < UpdatedUserDialog open={editDialogOpen} setOpen={setEditDialogOpen} onSubmit={handleEdit} selectedUser={selectedUser} />
+
       <Card>
         <UserTableToolbar
           numSelected={selected.length}
@@ -162,26 +213,26 @@ async function handleNewUserSubmit(event, newUser) {
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: 'name', label: 'Name' },
-                  { id: 'role', label: 'Role' },
-                  { id: 'email', label: 'Email' },
                   { id: 'phone', label: 'Phone' },
+                  { id: 'email', label: 'Email' },
+                  { id: 'role', label: 'Role' },
                 ]}
               />
               <TableBody>
                 {dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
-                    <UserTableRow
-                      key={row.id}
-                      name={row.name}
-                      role={row.role}
-                      status={row.status}
-                      company={row.company}
-                      avatarUrl={row.avatarUrl}
-                      isVerified={row.isVerified}
-                      selected={selected.indexOf(row.name) !== -1}
-                      handleClick={(event) => handleClick(event, row.name)}
-                    />
+                  <UserTableRow
+                    row={row}
+                    key={row.id}
+                    selected={selected.indexOf(row.name) !== -1}
+                    handleClick={(event) => handleClick(event, row.name)}
+                    handleDelete={handleDelete}  
+                    handleEdit={handleEdit}
+                    handleEditUserClick= {() => handleEditUserClick (row)}
+                  />
+                 
+                    
                   ))}
 
                 <TableEmptyRows

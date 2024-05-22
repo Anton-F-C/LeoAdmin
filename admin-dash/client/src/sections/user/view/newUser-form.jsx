@@ -6,7 +6,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-function NewUserDialog({ open, onSubmit }) {
+function NewUserDialog({ open, setOpen, onSubmit }) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -23,11 +23,18 @@ function NewUserDialog({ open, onSubmit }) {
     setPhone('');
     setEmail('');
     setRole('');
+
+    // Close the dialog
+    setOpen(false);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
-    <Dialog open={open} onClose={() => setOpen(false)}>
-      <DialogTitle>New User</DialogTitle>
+    <Dialog open={open} onClose={handleClose}>
+      <DialogTitle>Add a new user</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
@@ -64,7 +71,7 @@ function NewUserDialog({ open, onSubmit }) {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => setOpen(false)}>Cancel</Button>
+        <Button onClick={handleClose}>Cancel</Button>
         <Button onClick={handleSubmit}>Save</Button>
       </DialogActions>
     </Dialog>

@@ -38,10 +38,15 @@ router.post("/", async (req, res, next) => {
 });
 
 // - Delete a user
+// - Delete a user
 router.delete("/:id", async (req, res, next) => {
   try {
-    // It tries to find an user in the database by its primary key (ID)
+    // It tries to find a user in the database by its primary key (ID)
     const user = await User.findByPk(req.params.id);
+    // Check if user exists
+    if (!user) {
+      return res.status(404).send({ error: 'User not found' });
+    }
     // If the user is found, it's deleted from the database
     await user.destroy();
     // The server responds with the deleted user
@@ -50,6 +55,7 @@ router.delete("/:id", async (req, res, next) => {
     next(error);
   }
 });
+
 
 //Updates a user
 router.put("/:id", async (req, res, next) => {
