@@ -12,14 +12,17 @@ import Iconify from '../../components/iconify';
 
 export default function UserTableRow({
   selected,
-  name,
-  phone,
-  email,
-  role,
-  handleClick
+  row,
+  handleClick,
+  handleDelete,
+  handleEditUserClick
 }) {
   const [open, setOpen] = useState(null);
-
+  const {  id,
+    name,
+    phone,
+    email,
+    role,} = row;
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
   };
@@ -64,12 +67,12 @@ export default function UserTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
+        <MenuItem onClick={() => {handleCloseMenu(); handleEditUserClick(id)}}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit
+          Edit a user
         </MenuItem>
 
-        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
+        <MenuItem onClick={() => {handleCloseMenu(); handleDelete(id)}} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete
         </MenuItem>
@@ -85,4 +88,6 @@ UserTableRow.propTypes = {
   email: PropTypes.any,
   selected: PropTypes.bool,
   handleClick: PropTypes.func,
+  handleDelete: PropTypes.func,
+  handleEdit: PropTypes.func
 };
