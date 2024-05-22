@@ -16,13 +16,12 @@ export default function UserTableRow({
   handleClick,
   handleDelete,
   handleEditUserClick
-}) {
+}) 
+
+{
   const [open, setOpen] = useState(null);
-  const {  id,
-    name,
-    phone,
-    email,
-    role,} = row;
+  const {id,name,phone,email,role,} = row;
+
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
   };
@@ -69,7 +68,7 @@ export default function UserTableRow({
       >
         <MenuItem onClick={() => {handleCloseMenu(); handleEditUserClick(id)}}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit a user
+          Edit user
         </MenuItem>
 
         <MenuItem onClick={() => {handleCloseMenu(); handleDelete(id)}} sx={{ color: 'error.main' }}>
