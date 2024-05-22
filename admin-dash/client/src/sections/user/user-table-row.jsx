@@ -16,13 +16,12 @@ export default function UserTableRow({
   handleClick,
   handleDelete,
   handleEditUserClick
-}) {
+}) 
+
+{
   const [open, setOpen] = useState(null);
-  const {  id,
-    name,
-    phone,
-    email,
-    role,} = row;
+  const {id,name,phone,email,role,} = row;
+
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
   };

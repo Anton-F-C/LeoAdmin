@@ -51,12 +51,6 @@ export default function UserPage() {
 const handleNewUserClick = () => {
   setDialogOpen(true);
 };
-const handleEditUserClick = (row) => {
-  setEditDialogOpen(true);
-  setSelectedUser(row)
-};
-
-
 
 //Adding a new user 
 async function handleNewUserSubmit(event, newUser) {
@@ -121,6 +115,10 @@ async function handleEdit(id, updatedUser) {
   }
 };//end
 
+const handleEditUserClick = (row) => {
+  setEditDialogOpen(true);
+  setSelectedUser(row)
+};
 
 
 
