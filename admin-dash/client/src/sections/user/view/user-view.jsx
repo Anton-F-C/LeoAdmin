@@ -95,7 +95,6 @@ async function handleDelete(id) {
 
 //Editing a user
 async function handleEdit(id, updatedUser) {
-  console.log("insideFunction")
   try {
     const response = await fetch(`http://localhost:3000/users/${id}`, {
       method: 'PUT',

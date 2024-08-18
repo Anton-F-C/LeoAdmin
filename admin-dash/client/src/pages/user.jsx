@@ -7,7 +7,7 @@ export default function UserPage() {
   return (
     <>
       <Helmet>
-        <title> User | Minimal UI </title>
+        <title> User | Leo Glamping</title>
       </Helmet>
 
       <UserView />

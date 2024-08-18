@@ -2,13 +2,13 @@ import { sequelize } from '../db/db.js';
 import { DataTypes } from 'sequelize';
 
 const Property = sequelize.define('Property',{
+    image: DataTypes.STRING,
     name: DataTypes.STRING,
     bed: DataTypes.STRING,
     bath: DataTypes.STRING,
     size: DataTypes.STRING,
     price: DataTypes.INTEGER,
-    location: DataTypes.STRING
-   
+    location: DataTypes.STRING 
 });
 
 export default Property;
