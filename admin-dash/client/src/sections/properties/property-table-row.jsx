@@ -15,12 +15,12 @@ export default function PropertyTableRow({
   row,
   handlePropertyClick,
   handlePropertyDelete,
-  handleEditPropertyClick
+  handlePropertyEditClick
 }) 
 
 {
   const [open, setOpen] = useState(null);
-  const {image, name, bed, bath, size, price, location} = row;
+  const {id, image, name, bed, bath, size, price, location} = row;
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -38,7 +38,7 @@ export default function PropertyTableRow({
         </TableCell>
 
         <TableCell >
-          <img src={'https://images.unsplash.com/photo-1709869837747-cd22da367fdb?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'} alt="Property Image" width = "215px" height="205px" />
+          {image}<img src={'https://images.unsplash.com/photo-1709869837747-cd22da367fdb?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'} alt="Property Image" width = "215px" height="205px" />
           
         </TableCell>
 
@@ -55,7 +55,7 @@ export default function PropertyTableRow({
         <TableCell>{location}</TableCell>
 
         <TableCell align="right">
-          <IconButton onClick={handleOpenMenu}>
+          <IconButton onClick= {handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
         </TableCell>
@@ -71,9 +71,9 @@ export default function PropertyTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={() => {handleCloseMenu(); handleEditPropertyClick(id)}}>
+        <MenuItem onClick={() => {handleCloseMenu(); handlePropertyEditClick(id)}}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit Property
+          Edit 
         </MenuItem>
 
         <MenuItem onClick={() => {handleCloseMenu(); handlePropertyDelete(id)}} sx={{ color: 'error.main' }}>

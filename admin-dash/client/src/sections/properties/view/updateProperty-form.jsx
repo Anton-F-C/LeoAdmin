@@ -13,22 +13,28 @@ function UpdatePropertyDialog({ open, setOpen, onSubmit, selectedProperty }) {
     }
   const [image, setImage] = useState(selectedProperty.image);
   const [name, setName] = useState(selectedProperty.name);
+  const [bed, setBed] = useState(selectedProperty.bed);
+  const [bath, setBath] = useState(selectedProperty.bath);
+  const [size, setSize] = useState(selectedProperty.size);
   const [price, setPrice] = useState(selectedProperty.price);
-  const [category, setCategory] = useState(selectedProperty.category);
+  const [location, setLocation] = useState(selectedProperty.location);
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
     
     // Call the onSubmit function passed as prop with the updated property data
-    onSubmit(selectedProperty.id, { image, name, price, category });
+    onSubmit(selectedProperty.id, { image, name, price, bed, bath, size, location });
 
     // Reset form fields
     setImage('');
     setName('');
+    setBed('');
+    setBath('');
+    setSize('');
     setPrice('');
-    setCategory('');
-
-    // Close the dialog
+    setLocation('');
+    
     setOpen(false);
   };
 
@@ -59,6 +65,30 @@ function UpdatePropertyDialog({ open, setOpen, onSubmit, selectedProperty }) {
         />
         <TextField
           margin="dense"
+          label="Bed"
+          type="text"
+          fullWidth
+          value={bed}
+          onChange={(e) => setBed(e.target.value)}
+        />
+        <TextField
+          margin="dense"
+          label="Bath"
+          type="text"
+          fullWidth
+          value={bath}
+          onChange={(e) => setBath(e.target.value)}
+        />
+        <TextField
+          margin="dense"
+          label="Size"
+          type="text"
+          fullWidth
+          value={size}
+          onChange={(e) => setSize(e.target.value)}
+        />
+        <TextField
+          margin="dense"
           label="Price"
           type="text"
           fullWidth
@@ -67,11 +97,11 @@ function UpdatePropertyDialog({ open, setOpen, onSubmit, selectedProperty }) {
         />
         <TextField
           margin="dense"
-          label="Category"
+          label="Location"
           type="text"
           fullWidth
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
         />
       </DialogContent>
       <DialogActions>

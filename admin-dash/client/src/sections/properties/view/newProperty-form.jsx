@@ -7,23 +7,28 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 function NewPropertyDialog({ open, setOpen, onSubmit }) { 
-  const [image, setValue] = useState('');
+  const [image, setImage] = useState('');
   const [name, setName] = useState('');
-  const [price, setType] = useState('');
-  const [category, setCategory] = useState('');
-
+  const [bed, setBed] = useState('');
+  const [bath, setBath] = useState('');
+  const [size, setSize] = useState('');
+  const [price, setPrice] = useState('');
+  const [location, setLocation] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     // Call the onSubmit function passed as prop
-    onSubmit(event, { image, name, price, category});
+    onSubmit(event, { image, name, bed, bath, size, price, location });
 
     // Reset form fields
+    setImage('');
     setName('');
+    setBed('');
+    setBath('');
+    setSize('');
     setPrice('');
-    setCategory('');
-    setError(null);
+    setLocation('');
 
     // Close the dialog
     setOpen(false);
@@ -41,10 +46,10 @@ function NewPropertyDialog({ open, setOpen, onSubmit }) {
           autoFocus
           margin="dense"
           label="Image"
-          type="jpeg"
+          type="text"
           fullWidth
           value={image}
-          onChange={(e) => setImage(e.target.value)} 
+          onChange={(e) => setImage(e.target.value)}
         />
         <TextField
           margin="dense"
@@ -52,7 +57,31 @@ function NewPropertyDialog({ open, setOpen, onSubmit }) {
           type="text"
           fullWidth
           value={name}
-          onChange={(e) => setName(e.target.value)} 
+          onChange={(e) => setName(e.target.value)}
+        />
+        <TextField
+          margin="dense"
+          label="Bed"
+          type="text"
+          fullWidth
+          value={bed}
+          onChange={(e) => setBed(e.target.value)}
+        />
+        <TextField
+          margin="dense"
+          label="Bath"
+          type="text"
+          fullWidth
+          value={bath}
+          onChange={(e) => setBath(e.target.value)}
+        />
+        <TextField
+          margin="dense"
+          label="Size"
+          type="text"
+          fullWidth
+          value={size}
+          onChange={(e) => setSize(e.target.value)}
         />
         <TextField
           margin="dense"
@@ -60,15 +89,15 @@ function NewPropertyDialog({ open, setOpen, onSubmit }) {
           type="text"
           fullWidth
           value={price}
-          onChange={(e) => setPrice(e.target.value)} 
+          onChange={(e) => setPrice(e.target.value)}
         />
         <TextField
           margin="dense"
-          label="Category"
+          label="Location"
           type="text"
           fullWidth
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
         />
       </DialogContent>
       <DialogActions>
@@ -79,4 +108,4 @@ function NewPropertyDialog({ open, setOpen, onSubmit }) {
   );
 }
 
-export default NewPropertyDialog
+export default NewPropertyDialog;
