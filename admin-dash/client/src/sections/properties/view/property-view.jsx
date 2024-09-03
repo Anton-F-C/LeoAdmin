@@ -17,7 +17,7 @@ import PropertyTableToolbar from '../property-table-toolbar';
 import  PropertyTableNoData  from '../propertyTable-no-data';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import NewPropertyDialog from './newProperty-form';
-import UpdatedPropertyDialog from './updateProperty-form';
+import UpdatePropertyDialog from './updateProperty-form';
 
 export default function PropertyPage() {
   const [page, setPage] = useState(0);  
@@ -46,7 +46,7 @@ export default function PropertyPage() {
     fetchProperties();
   }, []);
 
-  const handleNewPropertyClick = () => {
+  const handlePropertyClick = () => {
     setDialogOpen(true);
   };
 
@@ -74,51 +74,46 @@ export default function PropertyPage() {
     setDialogOpen(false);
   }
 
-  const handleClose = () => {
-    setDialogOpen(false);
-  };
-
-  // Deleting a property
-  async function handlePropertyDelete(id) {
-    try {
-      const response = await fetch(`http://localhost:3000/properties/${id}`, {
-        method: 'DELETE',
-      });
-      if (response.ok) {
-        setProperties(properties.filter((property) => property.id !== id));
-      } else {
-        console.error('Failed to delete property');
+    // Deleting a property
+    async function handlePropertyDelete(id) {
+      try {
+        const response = await fetch(`http://localhost:3000/properties/${id}`, {
+          method: 'DELETE',
+        });
+        if (response.ok) {
+          setProperties(properties.filter((property) => property.id !== id));
+        } else {
+          console.error('Failed to delete property');
+        }
+      } catch (error) {
+        console.error('Error deleting property:', error);
       }
-    } catch (error) {
-      console.error('Error deleting property:', error);
     }
-  }
-
-  // Editing a property
-  async function handlePropertyEdit(id, updatedProperty) {
-    try {
-      const response = await fetch(`http://localhost:3000/properties/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedProperty),
-      });
-      if (response.ok) {
-        const updatedPropertyData = await response.json();
-        setProperties(properties.map((property) => (property.id === id ? updatedPropertyData : property)));
-      } else {
-        console.error('Failed to update property');
+    //Editing a property
+    async function handlePropertyEdit(id, updatedProperty) {
+      try {
+        const response = await fetch(`http://localhost:3000/properties/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedProperty),
+        });
+        if (response.ok) {
+          const updatedPropertyData = await response.json();
+          setProperties(properties.map((property) => (property.id === id ? updatedPropertyData : property)));
+        } else {
+          console.error('Failed to update property');
+        }
+      } catch (error) {
+        console.error('Error updating property:', error);
       }
-    } catch (error) {
-      console.error('Error updating property:', error);
     }
-  }
 
-  const handlePropertyClick = (property) => {
-    setEditDialogOpen(true);
-    setSelectedProperty(property);
-  };
+    const handlePropertyEditClick = (row) => {
+      setEditDialogOpen(true);
+      setSelectedProperty(row);
+    };
 
   // Filtering properties
   const handleSort = (event) => {
@@ -137,7 +132,6 @@ export default function PropertyPage() {
     }
     setSelected([]);
   };
-
   
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
@@ -179,27 +173,18 @@ export default function PropertyPage() {
 
   const notFound = !dataFiltered.length && !!filterName;
 
-  const handleEditDialogClose = () => {
-    setEditDialogOpen(false);
-  };
-
-
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4" gutterBottom>
           Properties
         </Typography>
-        <Button
-          variant="contained"
-          startIcon={<Iconify icon="eva:plus-fill" />}
-          onClick={handleNewPropertyClick}
-        >
-          New Property
+        <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handlePropertyClick}>
+          Add Property
         </Button>
       </Stack>
-    <NewPropertyDialog open={dialogOpen} onClose={handleClose} onSubmit={handleNewPropertySubmit} />
-    <UpdatedPropertyDialog open={editDialogOpen} onClose={handleEditDialogClose} onSubmit={handlePropertyEdit} property={selectedProperty} />
+    <NewPropertyDialog open={dialogOpen} setOpen={setDialogOpen} onSubmit={handleNewPropertySubmit} />
+    <UpdatePropertyDialog open={editDialogOpen} setOpen={setEditDialogOpen} onSubmit={handlePropertyEdit} selectedProperty={selectedProperty} />
 
     <Card>
         <PropertyTableToolbar
@@ -233,11 +218,13 @@ export default function PropertyPage() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                   <PropertyTableRow
-                    key={row.id}
                     row={row}
-                    selected={selected.includes(row.name)}
-                    onRowClick={handlePropertyClick}
-                    onSelectRow={() => handleClick(event, row.name)}
+                    key={row.id}
+                    selected={selected.indexOf(row.name) !== -1}
+                    handleClick={(event) => handleClick(event, row.name)}
+                    handlePropertyDelete={handlePropertyDelete}  
+                    handlePropertyEdit={handlePropertyEditClick}
+                    handlePropertyEditClick={handlePropertyEditClick}
                   />
                  
                     
@@ -248,7 +235,7 @@ export default function PropertyPage() {
                   emptyRows={emptyRows(page, rowsPerPage, properties.length)}
                 />
 
-                <PropertyTableNoData notFound={ notFound} />
+                {notFound && <PropertyTableNoData query={filterName} />}
               </TableBody>
             </Table>
           </TableContainer>
